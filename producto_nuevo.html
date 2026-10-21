@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <title>Nuevo Producto</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <!-- Estilos globales -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Orbitron:wght@400;600;700&family=Press+Start+2P&family=Russo+One&family=Staatliches&family=Vidaloka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <navegacion></navegacion>
+
+    <main>
+      <div class="cuerpito">
+        <form class="form" @submit.prevent="guardar">
+          <h1 class="formt">Alta de Producto</h1>
+
+          <div class="formc">
+            <div class="mb-3 formi">
+              <label class="fl" for="nombre">Nombre</label>
+              <input class="fi" type="text" id="nombre" v-model="producto.nombre" placeholder="Ej: Procesador Intel Core i7" required>
+            </div>
+
+            <div class="mb-3 formi">
+              <label class="fl" for="precio">Precio</label>
+              <input class="fi" type="number" step="0.01" id="precio" v-model.number="producto.precio" placeholder="0.00" required>
+            </div>
+
+            <div class="mb-3 formi">
+              <label class="fl" for="stock">Stock</label>
+              <input class="fi" type="number" id="stock" v-model.number="producto.stock" placeholder="Cantidad" required>
+            </div>
+
+            <div class="mb-3 formi">
+              <label class="fl" for="imagen">URL Imagen</label>
+              <input class="fi" type="text" id="imagen" v-model="producto.imagen" placeholder="https://...">
+            </div>
+
+            <!-- Miniatura de previsualización reactiva -->
+            <div class="mb-3 text-center" v-if="producto.imagen">
+              <span class="d-block small text-muted mb-1">Miniatura:</span>
+              <div class="preview-container">
+                <img :src="producto.imagen" alt="Miniatura" class="preview-img">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success" :disabled="enviando">
+              <span v-if="enviando">Guardando...</span>
+              <span v-else>Grabar Producto</span>
+            </button>
+
+            <a href="productos.html" class="btn btn-secondary w-100">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <piesito></piesito>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  <!-- Vue 3 CDN y Script -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./js/producto_nuevo.js"></script>
+</body>
+
+</html>

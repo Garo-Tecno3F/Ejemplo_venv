@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <title>Catálogo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+  
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Orbitron:wght@400;600;700&family=Press+Start+2P&family=Russo+One&family=Staatliches&family=Vidaloka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <navegacion></navegacion>
+
+    <main>
+      <div class="container galeria1">
+        <h1>Nuestros Productos</h1>
+
+        <section v-if="error">
+          <div class="alert alert-danger my-4" role="alert">
+            Lo sentimos, no podemos mostrarte los productos en este momento.
+          </div>
+        </section>
+
+        <section v-else>
+          <section v-if="cargando">
+            <div class="d-flex justify-content-center align-items-center my-5">
+              <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Cargando...</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="galeria" v-else>
+            <div class="card card2" style="width: 18rem;" v-for="p in productos" :key="p.id">
+              <img class="card-img-top" :src="p.imagen || './img/logo-fix.png'" :alt="p.nombre">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <h5 class="card-title text-truncate" :title="p.nombre">{{ p.nombre }}</h5>
+                <p class="card-text fw-bold text-info fs-5 mb-3">${{ Number(p.precio).toLocaleString('es-AR') }}</p>
+                <button 
+                  type="button" 
+                  class="btn btn-dark w-100" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#detalleModal"
+                  @click="seleccionarProducto(p)">
+                  <i class="fa-solid fa-eye me-1"></i> Ver detalles
+                </button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+
+      <!-- MODAL DE DETALLES -->
+      <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modal-custom" v-if="productoSeleccionado">
+            
+            <div class="modal-header border-0 pb-0">
+              <h4 class="modal-title fs-5" id="detalleModalLabel">{{ productoSeleccionado.nombre }}</h4>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center pt-2">
+              <div class="modal-img-container mb-3">
+                <img 
+                  :src="productoSeleccionado.imagen || './img/logo-fix.png'" 
+                  :alt="productoSeleccionado.nombre" 
+                  class="img-fluid rounded modal-img">
+              </div>
+              
+              <div class="d-flex justify-content-around align-items-center bg-dark bg-opacity-50 p-3 rounded mb-2 border border-secondary border-opacity-25">
+                <div>
+                  <span class="text-secondary d-block small">PRECIO</span>
+                  <span class="text-info fw-bold fs-3">${{ Number(productoSeleccionado.precio).toLocaleString('es-AR') }}</span>
+                </div>
+                <div>
+                  <span class="text-secondary d-block small">STOCK DISPONIBLE</span>
+                  <span class="badge bg-success fs-6" v-if="productoSeleccionado.stock > 0">
+                    {{ productoSeleccionado.stock }} unid.
+                  </span>
+                  <span class="badge bg-danger fs-6" v-else>
+                    Sin stock
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- FIN MODAL -->
+
+    </main>
+
+    <piesito></piesito>
+  </div>
+
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  <!-- Iconos Fontawesome -->
+  <script src="https://kit.fontawesome.com/216116f202.js" crossorigin="anonymous"></script>
+
+  <!-- Vue 3 & JS -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./js/productos.js"></script>
+</body>
+
+</html>

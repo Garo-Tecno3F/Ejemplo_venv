@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <title>Log de Actividad</title>
+  <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <!-- Estilos del proyecto -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Orbitron:wght@400;600;700&family=Press+Start+2P&family=Russo+One&family=Staatliches&family=Vidaloka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <navegacion></navegacion>
+
+    <main class="container">
+      <div class="container-panel galeria1">
+        <h1>Registro de Actividad (Log)</h1>
+
+        <!-- Estado de error -->
+        <section v-if="error">
+          <div class="alert alert-danger my-4" role="alert">
+            Lo sentimos, no pudimos conectar con el servidor para cargar los registros.
+          </div>
+        </section>
+
+        <!-- Estado de carga y datos -->
+        <section v-else>
+          <div v-if="cargando" class="d-flex justify-content-center align-items-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+
+          <div v-else class="table-responsive mt-3">
+            <table class="table table-custom">
+              <thead>
+                <tr>
+                  <th scope="col">ID Producto</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Operación</th>
+                  <th scope="col">Fecha y Hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-if="logs.length === 0">
+                  <td colspan="4" class="text-center py-4 text-muted">
+                    No hay registros en el historial de actividad.
+                  </td>
+                </tr>
+                <tr v-for="item in logs" :key="item.id">
+                  <td class="fw-bold">#{{ item.id_producto }}</td>
+                  <td>{{ item.usuario }}</td>
+                  <td>
+                    <span :class="badgeClass(item.operacion)">
+                      {{ item.operacion }}
+                    </span>
+                  </td>
+                  <td>{{ formatearFecha(item.fecha_hora) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <piesito></piesito>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <!-- Script específico de la vista de Log -->
+  <script src="./js/log.js"></script>
+</body>
+
+</html>
